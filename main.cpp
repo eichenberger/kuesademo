@@ -1,17 +1,6 @@
 /*
     main.cpp
 
-    This file is part of Kuesa.
-
-    Copyright (C) 2018-2019 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kdab.com
-    Author: Mike Krus <mike.krus@kdab.com>
-
-    Licensees holding valid proprietary KDAB Kuesa licenses may use this file in
-    accordance with the Kuesa Enterprise License Agreement provided with the Software in the
-    LICENSE.KUESA.ENTERPRISE file.
-
-    Contact info@kdab.com if any conditions of this licensing are not clear to you.
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
     published by the Free Software Foundation, either version 3 of the
@@ -42,11 +31,16 @@ int main(int ac, char **av)
     // Set OpenGL requirements
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
     format.setRenderableType(QSurfaceFormat::OpenGLES);
-    format.setVersion(3, 1);
+    format.setVersion(3, 2);
+    // Don't do MSAA for now...
+    //format.setSamples(4);
+    format.setProfile(QSurfaceFormat::CompatibilityProfile);
 
     QSurfaceFormat::setDefaultFormat(format);
 
-//    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    format = QSurfaceFormat::defaultFormat();
+
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
     QGuiApplication app(ac, av);
 
     QDir resourceDir(app.applicationDirPath() + QStringLiteral("/resources"));
@@ -61,14 +55,11 @@ int main(int ac, char **av)
     QQuickView view;
 
     const QString assetsPrefix = QString("file://" + QGuiApplication::applicationDirPath() + "/data/");
+    // If we want to pack everything in one file (slow)
     //const QString assetsPrefix = QString("qrc:/");
 
-    const QString modelSuffix = QStringLiteral("");
 
-
-    view.engine()->rootContext()->setContextProperty(QStringLiteral("_view"), &view);
     view.engine()->rootContext()->setContextProperty(QStringLiteral("_assetsPrefix"), assetsPrefix);
-    view.engine()->rootContext()->setContextProperty(QStringLiteral("_modelSuffix"), modelSuffix);
 
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));

@@ -1,16 +1,5 @@
 /*
-    SceneEntity.qml
-
-    This file is part of Kuesa.
-
-    Copyright (C) 2019 Klarälvdalens Datakonsult AB, a KDAB Group company, info@kdab.com
-    Author: Robert Brock <robert.brock@kdab.com>
-
-    Licensees holding valid proprietary KDAB Kuesa licenses may use this file in
-    accordance with the Kuesa Enterprise License Agreement provided with the Software in the
-    LICENSE.KUESA.ENTERPRISE file.
-
-    Contact info@kdab.com if any conditions of this licensing are not clear to you.
+    MainScene.qml
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -26,7 +15,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-//! [0]
 import Qt3D.Core 2.12
 import Qt3D.Render 2.12
 import Qt3D.Input 2.12
@@ -40,14 +28,7 @@ import Kuesa.Effects 1.1 as KuesaFX
 Kuesa.SceneEntity {
     id: root3D
 
-    property string toneMappingAlgorithmName: "None"
-    property int screenWidth
-    property int screenHeight
-
     property double exposure: 1.7
-    property bool rotating: false
-
-    property var __winSize: Qt.size(_view.width, _view.height)
 
     Kuesa.Skybox {
         // Optional: Use the irradiance instead of the radiance for a simple blurry background
@@ -57,14 +38,12 @@ Kuesa.SceneEntity {
 
     components: [
         RenderSettings {
-            //! [2.2]
             activeFrameGraph: Kuesa.ForwardRenderer {
                 id: frameGraph
                 camera: camera
                 clearColor: Qt.rgba(0.1, 0.1, 0.1, 1.0)
                 exposure: root3D.exposure
             }
-            //! [2.2]
         },
         InputSettings { },
         EnvironmentLight {
@@ -99,11 +78,11 @@ Kuesa.SceneEntity {
         upVector: Qt.vector3d(0.0, 1.0, 0.0)
         exposure: root3D.exposure
         viewCenter: Qt.vector3d(0.0, 50.0, 0.0)
-        aspectRatio: root3D.__winSize.width / root3D.__winSize.height
         Timer {
             running: true
             repeat: true
             interval: 30
+            // Use the vector (0,1,0) so that it only rotates around Y axis instead of using the current camera pose
             onTriggered: camera.panAboutViewCenter(-0.2, Qt.vector3d(0.0, 1.0, 0.0))
         }
     }
@@ -216,18 +195,10 @@ Kuesa.SceneEntity {
         loops: Kuesa.AnimationPlayer.Infinite
     }
 
-    Kuesa.Asset {
-        id: materialsAsset
-        name: "green"
-        collection: root3D.materials
-    }
-
     Kuesa.GLTF2Importer {
         id: gltf2importer
         sceneEntity: root3D
-        assignNames: true
         source: _assetsPrefix + "mearm_animation.gltf"
-        options.generateTangents: true
     }
 
 }
