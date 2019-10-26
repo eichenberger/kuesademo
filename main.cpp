@@ -60,7 +60,7 @@ int main(int ac, char **av)
     }
     QQuickView view;
 
-    const QString assetsPrefix = QString("file://" + QGuiApplication::applicationDirPath() + "/");
+    const QString assetsPrefix = QString("file://" + QGuiApplication::applicationDirPath() + "/data/");
     //const QString assetsPrefix = QString("qrc:/");
 
     const QString modelSuffix = QStringLiteral("");

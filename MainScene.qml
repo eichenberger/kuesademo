@@ -46,7 +46,6 @@ Kuesa.SceneEntity {
 
     property double exposure: 1.7
     property bool rotating: false
-    property bool lightRotating: true
 
     property var __winSize: Qt.size(_view.width, _view.height)
 
@@ -96,11 +95,17 @@ Kuesa.SceneEntity {
 
     Camera {
         id: camera
-        position: Qt.vector3d(400.0, 100.0, -600.0)
+        position: Qt.vector3d(0.0, 150.0, -500.0)
         upVector: Qt.vector3d(0.0, 1.0, 0.0)
         exposure: root3D.exposure
         viewCenter: Qt.vector3d(0.0, 50.0, 0.0)
         aspectRatio: root3D.__winSize.width / root3D.__winSize.height
+        Timer {
+            running: true
+            repeat: true
+            interval: 30
+            onTriggered: camera.panAboutViewCenter(-0.2, Qt.vector3d(0.0, 1.0, 0.0))
+        }
     }
 
     OrbitCameraController {
