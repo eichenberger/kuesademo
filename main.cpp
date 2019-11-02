@@ -31,7 +31,7 @@ int main(int ac, char **av)
     // Set OpenGL requirements
     QSurfaceFormat format = QSurfaceFormat::defaultFormat();
     format.setRenderableType(QSurfaceFormat::OpenGLES);
-    format.setVersion(3, 2);
+    format.setVersion(2, 0);
     // Don't do MSAA for now...
     //format.setSamples(4);
     format.setProfile(QSurfaceFormat::CompatibilityProfile);

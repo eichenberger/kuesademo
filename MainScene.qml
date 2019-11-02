@@ -81,7 +81,7 @@ Kuesa.SceneEntity {
         Timer {
             running: true
             repeat: true
-            interval: 30
+            interval: 35
             // Use the vector (0,1,0) so that it only rotates around Y axis instead of using the current camera pose
             onTriggered: camera.panAboutViewCenter(-0.2, Qt.vector3d(0.0, 1.0, 0.0))
         }

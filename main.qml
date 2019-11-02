@@ -30,7 +30,6 @@ Item {
             id: scene3d
             anchors.fill: parent
             focus: true
-            multisample: true
             aspects: ["render", "input", "logic", "animation"]
 
             MainScene {
